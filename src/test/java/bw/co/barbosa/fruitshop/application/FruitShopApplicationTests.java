@@ -1,4 +1,4 @@
-package bw.co.barbosa.fruitshop;
+package bw.co.barbosa.fruitshop.application;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
