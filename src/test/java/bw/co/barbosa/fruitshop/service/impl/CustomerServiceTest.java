@@ -22,7 +22,7 @@ class CustomerServiceTest {
     @Mock
     CustomerRepository customerRepository;
 
-    CustomerMapper customerMapper;
+    CustomerMapper customerMapper = CustomerMapper.INSTANCE;
 
     CustomerServiceImpl customerService;
 
@@ -86,5 +86,23 @@ class CustomerServiceTest {
 
         assertEquals(customerDTO.getFirstname(), savedDTO.getFirstname());
         assertEquals("/api/v1/customer/1", savedDTO.getCustomerUrl());
+    }
+
+    @Test
+    void saveCustomerByDtoTest() throws Exception {
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setFirstname("Jim");
+
+        Customer savedCustomer = new Customer();
+        savedCustomer.setFirstname(customerDTO.getFirstname());
+        savedCustomer.setLastname(customerDTO.getLastname());
+        savedCustomer.setId(1L);
+
+        when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
+        CustomerDTO savedDto = customerService.saveCustomerByDTO(1L, customerDTO);
+
+        assertEquals(customerDTO.getFirstname(), savedDto.getFirstname());
+        assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
     }
 }

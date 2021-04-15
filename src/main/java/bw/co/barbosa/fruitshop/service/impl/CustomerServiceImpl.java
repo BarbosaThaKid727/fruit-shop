@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    public static final String CUSTOMER_URL = "/api/v1/customer/";
     private final CustomerMapper customerMapper;
     private final CustomerRepository customerRepository;
 
@@ -51,10 +52,23 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO createNewCustomer(CustomerDTO customerDTO) {
 
+        return saveAndReturnDTO(customerMapper.customerDtoToCustomer(customerDTO));
+    }
+
+    @Override
+    public CustomerDTO saveCustomerByDTO(Long id, CustomerDTO customerDTO) {
+
         Customer customer = customerMapper.customerDtoToCustomer(customerDTO);
+        customer.setId(id);
+        log.info("Updated customer with ID: " + id);
+        return saveAndReturnDTO(customer);
+    }
+
+    private CustomerDTO saveAndReturnDTO(Customer customer) {
+
         Customer savedCustomer = customerRepository.save(customer);
-        CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(savedCustomer);
-        returnDTO.setCustomerUrl("/api/v1/customer/" + savedCustomer.getId());
+        CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(customer);
+        returnDTO.setCustomerUrl(CUSTOMER_URL + savedCustomer.getId());
         return returnDTO;
     }
 }
