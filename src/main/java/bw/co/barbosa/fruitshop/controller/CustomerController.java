@@ -36,7 +36,7 @@ public class CustomerController {
         );
     }
 
-    @PostMapping ("/create")
+    @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
 
         log.info("creating customer with firstname: " + customerDTO.getFirstname());
@@ -51,6 +51,15 @@ public class CustomerController {
         log.info("Updating customer with ID: " + id);
         return new ResponseEntity<CustomerDTO>(
                 customerService.saveCustomerByDTO(id, customerDTO), HttpStatus.OK
+        );
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable long id, @RequestBody CustomerDTO customerDTO) {
+
+        log.info("Patching customer with id: " + id);
+        return new ResponseEntity<CustomerDTO>(
+                customerService.patchCustomer(id, customerDTO), HttpStatus.OK
         );
     }
 }
