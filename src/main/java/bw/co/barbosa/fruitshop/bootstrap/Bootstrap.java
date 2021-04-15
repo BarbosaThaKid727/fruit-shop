@@ -40,5 +40,6 @@ public class Bootstrap implements CommandLineRunner {
         categoryRepository.save(nuts);
 
         log.info("Data Loaded = " + categoryRepository.count());
+        System.out.println("Data Loaded = " + categoryRepository.count());
     }
 }
