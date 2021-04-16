@@ -3,6 +3,7 @@ package bw.co.barbosa.fruitshop.service.impl;
 import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
 import bw.co.barbosa.fruitshop.api.v1.dto.CustomerListDTO;
 import bw.co.barbosa.fruitshop.api.v1.mapper.CustomerMapper;
+import bw.co.barbosa.fruitshop.exception.ResourceNotFoundException;
 import bw.co.barbosa.fruitshop.model.Customer;
 import bw.co.barbosa.fruitshop.repository.CustomerRepository;
 import bw.co.barbosa.fruitshop.service.CustomerService;
@@ -46,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Fetching customer id: " + id);
         return customerRepository.findById(id)
                 .map(customerMapper::customerToCustomerDTO)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
             CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(customer);
             customerDTO.setCustomerUrl("/api/v1/customers/" + id);
             return returnDTO;
-        }).orElseThrow(RuntimeException::new);
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override

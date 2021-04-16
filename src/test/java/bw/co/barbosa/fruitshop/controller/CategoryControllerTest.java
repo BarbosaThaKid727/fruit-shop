@@ -2,6 +2,7 @@ package bw.co.barbosa.fruitshop.controller;
 
 import bw.co.barbosa.fruitshop.api.v1.dto.CategoryDTO;
 import bw.co.barbosa.fruitshop.api.v1.dto.CategoryListDTO;
+import bw.co.barbosa.fruitshop.exception.ResourceNotFoundException;
 import bw.co.barbosa.fruitshop.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,9 @@ class CategoryControllerTest {
 
         MockitoAnnotations.openMocks(this);
         Object[] controllers;
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -76,5 +79,14 @@ class CategoryControllerTest {
         mockMvc.perform(get("/api/v1/categories/Foo Bar").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)));
+    }
+
+    @Test
+    void getByNameNotFOundTest() throws Exception {
+
+        when(categoryService.getCategoryByName(anyString())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get("/api/v1/categories/Foo Bar").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
