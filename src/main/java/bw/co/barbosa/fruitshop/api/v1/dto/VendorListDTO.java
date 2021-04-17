@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class VendorListDTO {
 
-    List<Vendor> vendors;
+    List<VendorDTO> vendors;
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VendorDTO {
 
-    Long id;
+    //Long id;
     private String name;
 
     @JsonProperty("vendor_id")

@@ -1,6 +1,7 @@
 package bw.co.barbosa.fruitshop.service.impl;
 
 import bw.co.barbosa.fruitshop.api.v1.dto.VendorDTO;
+import bw.co.barbosa.fruitshop.api.v1.dto.VendorListDTO;
 import bw.co.barbosa.fruitshop.api.v1.mapper.VendorMapper;
 import bw.co.barbosa.fruitshop.exception.ResourceNotFoundException;
 import bw.co.barbosa.fruitshop.model.Vendor;
@@ -26,14 +27,20 @@ public class VendorServiceImpl implements VendorService {
     }
 
     @Override
-    public List<VendorDTO> getAllVendors() {
+    public VendorListDTO getAllVendors() {
 
         log.info("Fetching all vendors");
-        return vendorRepository
+        List<VendorDTO> vendorDTOS = vendorRepository
                 .findAll()
                 .stream()
-                .map(vendorMapper::vendorToVendorDTO)
+                .map(vendor -> {
+                    VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
+                    vendorDTO.setVendorUrl(getVendorUrl(vendor.getId()));
+                    return vendorDTO;
+                })
                 .collect(Collectors.toList());
+
+        return new VendorListDTO(vendorDTOS);
     }
 
     @Override
@@ -87,5 +94,9 @@ public class VendorServiceImpl implements VendorService {
         VendorDTO returnedDTO = vendorMapper.vendorToVendorDTO(vendor);
         returnedDTO.setVendorUrl(VENDOR_URL + "/" + savedVendor.getId());
         return returnedDTO;
+    }
+
+    private String getVendorUrl(Long id) {
+        return VENDOR_URL + "/" + id;
     }
 }

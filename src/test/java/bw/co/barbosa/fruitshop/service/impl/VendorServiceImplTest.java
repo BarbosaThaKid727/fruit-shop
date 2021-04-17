@@ -1,6 +1,7 @@
 package bw.co.barbosa.fruitshop.service.impl;
 
 import bw.co.barbosa.fruitshop.api.v1.dto.VendorDTO;
+import bw.co.barbosa.fruitshop.api.v1.dto.VendorListDTO;
 import bw.co.barbosa.fruitshop.api.v1.mapper.VendorMapper;
 import bw.co.barbosa.fruitshop.exception.ResourceNotFoundException;
 import bw.co.barbosa.fruitshop.model.Vendor;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -44,20 +45,13 @@ class VendorServiceImplTest {
     @Test
     void getAllVendorsTest() {
 
-        Vendor vendor = new Vendor();
-        vendor.setId(1L);
-        vendor.setName("Vendor 1");
+        List<Vendor> vendors = Arrays.asList(getVendor1(), getVendor2());
 
-        Vendor vendor2 = new Vendor();
-        vendor2.setId(2L);
-        vendor2.setName("Vendor 2");
+        given(vendorRepository.findAll()).willReturn(vendors);
+        VendorListDTO vendorDTOS = vendorService.getAllVendors();
 
-        List<Vendor> vendors = Arrays.asList(vendor, vendor2);
-
-        when(vendorRepository.findAll()).thenReturn(vendors);
-        List<VendorDTO> vendorDTOS = vendorService.getAllVendors();
-
-        assertEquals(2, vendorDTOS.size());
+        then(vendorRepository).should(times(1)).findAll();
+        assertThat(vendorDTOS.getVendors().size(), is(equalTo(2)));
     }
 
     @Test
@@ -71,7 +65,6 @@ class VendorServiceImplTest {
         VendorDTO vendorDTO = vendorService.getVendorById(1L);
 
         assertEquals("Foo Bar", vendorDTO.getName());
-        assertEquals(1L, vendorDTO.getId());
     }
 
     @Test
@@ -132,5 +125,19 @@ class VendorServiceImplTest {
         Long id = 1L;
         vendorRepository.deleteById(id);
         verify(vendorRepository, times(1)).deleteById(anyLong());
+    }
+
+    private Vendor getVendor1() {
+        Vendor vendor = new Vendor();
+        vendor.setId(1L);
+        vendor.setName("Foo Bar");
+        return vendor;
+    }
+
+    private Vendor getVendor2() {
+        Vendor vendor = new Vendor();
+        vendor.setId(2L);
+        vendor.setName("Fee Bar");
+        return vendor;
     }
 }

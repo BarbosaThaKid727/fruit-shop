@@ -19,7 +19,6 @@ class VendorMapperTest {
 
         VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
 
-        assertEquals(1L, vendorDTO.getId());
         assertEquals("Foo Bar", vendorDTO.getName());
     }
 }
