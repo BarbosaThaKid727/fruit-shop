@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rest-model</artifactId>
+    <packaging>jar</packaging>
+
+    <name>fruit-shop-mvc-model</name>
+    <description>Demo project for Spring Boot</description>
+
+    <parent>
+        <groupId>bw.co.barbosa</groupId>
+        <artifactId>fruit-shop</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <!--<build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    &lt;!&ndash;The package of your generated sources&ndash;&gt;
+                    <packageName>bw.co.barbosa.fruitshop.model</packageName>
+                    <sources>
+                        <source>src/main.resources/xsd</source>
+                    </sources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>-->
+</project>
