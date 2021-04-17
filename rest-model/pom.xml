@@ -16,12 +16,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>2.5.0</version>
                 <executions>
                     <execution>
                         <id>xjc</id>
@@ -31,13 +31,14 @@
                     </execution>
                 </executions>
                 <configuration>
-                    &lt;!&ndash;The package of your generated sources&ndash;&gt;
+                    <!--The package of your generated sources-->
                     <packageName>bw.co.barbosa.fruitshop.model</packageName>
                     <sources>
-                        <source>src/main.resources/xsd</source>
+                        <!--<source>src/main/resources/xsd/dummy.xsd</source>-->
+                        <source>src/main/resources/xsd</source>
                     </sources>
                 </configuration>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 </project>
