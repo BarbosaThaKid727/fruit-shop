@@ -6,6 +6,7 @@ import bw.co.barbosa.fruitshop.bootstrap.Bootstrap;
 import bw.co.barbosa.fruitshop.model.Customer;
 import bw.co.barbosa.fruitshop.repository.CategoryRepository;
 import bw.co.barbosa.fruitshop.repository.CustomerRepository;
+import bw.co.barbosa.fruitshop.repository.VendorRepository;
 import bw.co.barbosa.fruitshop.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,9 @@ public class CustomerServiceIntegrationTest {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     CustomerMapper customerMapper = CustomerMapper.INSTANCE;
@@ -45,7 +49,7 @@ public class CustomerServiceIntegrationTest {
         log.info(String.valueOf(customerRepository.findAll().size()));
 
         //setup data for testing
-        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository);
+        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository, vendorRepository);
         bootstrap.run(); //load data
 
         customerService = new CustomerServiceImpl(customerMapper, customerRepository);

@@ -2,8 +2,10 @@ package bw.co.barbosa.fruitshop.bootstrap;
 
 import bw.co.barbosa.fruitshop.model.Category;
 import bw.co.barbosa.fruitshop.model.Customer;
+import bw.co.barbosa.fruitshop.model.Vendor;
 import bw.co.barbosa.fruitshop.repository.CategoryRepository;
 import bw.co.barbosa.fruitshop.repository.CustomerRepository;
+import bw.co.barbosa.fruitshop.repository.VendorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,12 +14,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bootstrap implements CommandLineRunner {
 
-    private CategoryRepository categoryRepository;
-    private CustomerRepository customerRepository;
+    private final CategoryRepository categoryRepository;
+    private final CustomerRepository customerRepository;
+    private final VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
@@ -25,6 +29,7 @@ public class Bootstrap implements CommandLineRunner {
 
         loadCustomers();
         loadCategories();
+        loadVendors();
     }
 
     private void loadCustomers() {
@@ -79,5 +84,26 @@ public class Bootstrap implements CommandLineRunner {
 
         log.info("Categories Loaded = " + categoryRepository.count());
 
+    }
+
+    private void loadVendors() {
+
+        Vendor vendor = new Vendor();
+        vendor.setId(1L);
+        vendor.setName("Foo Bar");
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setId(2L);
+        vendor2.setName("Fe Bar");
+
+        Vendor vendor3 = new Vendor();
+        vendor3.setId(3L);
+        vendor3.setName("Bar Foo");
+
+        vendorRepository.save(vendor);
+        vendorRepository.save(vendor2);
+        vendorRepository.save(vendor3);
+
+        log.info("Vendors Loaded = " + vendorRepository.count());
     }
 }
