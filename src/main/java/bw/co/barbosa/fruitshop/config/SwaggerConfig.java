@@ -26,7 +26,6 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
-                .pathMapping("/")
                 .apiInfo(metaData())
                 .apiInfo(tags());
     }
