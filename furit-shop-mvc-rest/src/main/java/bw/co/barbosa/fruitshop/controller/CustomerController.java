@@ -1,14 +1,13 @@
 package bw.co.barbosa.fruitshop.controller;
 
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerListDTO;
+import bw.co.barbosa.fruitshop.model.CustomerDTO;
 import bw.co.barbosa.fruitshop.config.SwaggerConfig;
+import bw.co.barbosa.fruitshop.model.CustomerListDTO;
 import bw.co.barbosa.fruitshop.service.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -30,7 +29,9 @@ public class CustomerController {
     public CustomerListDTO getAllCustomers() {
 
         log.info("GET method on: " + BASE_URL);
-        return customerService.getAllCustomers();
+        CustomerListDTO customerListDTO = new CustomerListDTO();
+        customerListDTO.getCustomers().addAll(customerService.getAllCustomers());
+        return customerListDTO;
     }
 
     @ApiOperation(value = "This will get a customer with an id.", notes = "These are some notes about the API.")

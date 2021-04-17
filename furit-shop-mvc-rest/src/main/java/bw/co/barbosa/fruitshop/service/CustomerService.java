@@ -1,13 +1,12 @@
 package bw.co.barbosa.fruitshop.service;
 
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerListDTO;
+import bw.co.barbosa.fruitshop.model.CustomerDTO;
 
 import java.util.List;
 
 public interface CustomerService {
 
-    CustomerListDTO getAllCustomers();
+    List<CustomerDTO> getAllCustomers();
 
     CustomerDTO getCustomerById(Long id);
 

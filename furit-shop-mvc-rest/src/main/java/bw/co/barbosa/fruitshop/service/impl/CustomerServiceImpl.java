@@ -1,7 +1,6 @@
 package bw.co.barbosa.fruitshop.service.impl;
 
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerListDTO;
+import bw.co.barbosa.fruitshop.model.CustomerDTO;
 import bw.co.barbosa.fruitshop.api.v1.mapper.CustomerMapper;
 import bw.co.barbosa.fruitshop.exception.ResourceNotFoundException;
 import bw.co.barbosa.fruitshop.model.Customer;
@@ -27,10 +26,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerListDTO getAllCustomers() {
+    public List<CustomerDTO> getAllCustomers() {
 
         log.info("Fetching all customers");
-        List<CustomerDTO> customerDTOS = customerRepository
+        return customerRepository
                 .findAll()
                 .stream()
                 .map(customer -> {
@@ -39,8 +38,6 @@ public class CustomerServiceImpl implements CustomerService {
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
-
-        return new CustomerListDTO(customerDTOS);
     }
 
     @Override

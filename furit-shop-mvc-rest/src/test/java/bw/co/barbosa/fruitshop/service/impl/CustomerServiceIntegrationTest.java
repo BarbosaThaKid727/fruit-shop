@@ -1,6 +1,6 @@
 package bw.co.barbosa.fruitshop.service.impl;
 
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
+import bw.co.barbosa.fruitshop.model.CustomerDTO;
 import bw.co.barbosa.fruitshop.api.v1.mapper.CustomerMapper;
 import bw.co.barbosa.fruitshop.bootstrap.Bootstrap;
 import bw.co.barbosa.fruitshop.model.Customer;

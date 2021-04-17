@@ -1,12 +1,11 @@
 package bw.co.barbosa.fruitshop.api.v1.mapper;
 
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
+import bw.co.barbosa.fruitshop.model.CustomerDTO;
 import bw.co.barbosa.fruitshop.model.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 class CustomerMapperTest {
 

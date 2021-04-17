@@ -1,7 +1,7 @@
 package bw.co.barbosa.fruitshop.service.impl;
 
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
-import bw.co.barbosa.fruitshop.api.v1.dto.CustomerListDTO;
+import bw.co.barbosa.fruitshop.model.CustomerDTO;
+import bw.co.barbosa.fruitshop.model.CustomerListDTO;
 import bw.co.barbosa.fruitshop.api.v1.mapper.CustomerMapper;
 import bw.co.barbosa.fruitshop.model.Customer;
 import bw.co.barbosa.fruitshop.repository.CustomerRepository;
@@ -44,11 +44,11 @@ class CustomerServiceTest {
 
         List<Customer> customers = Arrays.asList(getCustomer1(), getCustomer2());
 
-        given(customerRepository.findAll()).willReturn(customers);
-        CustomerListDTO customerDTOS = customerService.getAllCustomers();
+        when(customerRepository.findAll()).thenReturn(customers);
 
-        then(customerRepository).should(times(1)).findAll();
-        assertThat(customerDTOS.getCustomers().size(), is(equalTo(2)));
+        List<CustomerDTO> customerDTOS = customerService.getAllCustomers();
+
+        assertEquals(2, customerDTOS.size());
     }
 
     @Test
