@@ -27,10 +27,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDTO> getAllCustomers() {
+    public CustomerListDTO getAllCustomers() {
 
         log.info("Fetching all customers");
-        return customerRepository
+        List<CustomerDTO> customerDTOS = customerRepository
                 .findAll()
                 .stream()
                 .map(customer -> {
@@ -39,6 +39,8 @@ public class CustomerServiceImpl implements CustomerService {
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
+
+        return new CustomerListDTO(customerDTOS);
     }
 
     @Override

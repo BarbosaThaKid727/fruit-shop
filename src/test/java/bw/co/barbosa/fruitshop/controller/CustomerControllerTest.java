@@ -1,13 +1,19 @@
 package bw.co.barbosa.fruitshop.controller;
 
 import bw.co.barbosa.fruitshop.api.v1.dto.CustomerDTO;
+import bw.co.barbosa.fruitshop.api.v1.dto.CustomerListDTO;
 import bw.co.barbosa.fruitshop.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -17,50 +23,41 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = {CustomerController.class})
 class CustomerControllerTest extends AbstractRestControllerTest {
 
     public static final String CUSTOMER_URL = "/api/v1/customers/1";
-    @Mock
+    @MockBean
     CustomerService customerService;
 
-    @InjectMocks
-    CustomerController customerController;
-
+    @Autowired
     MockMvc mockMvc;
+
+    CustomerDTO customerDto_1;
+    CustomerDTO customerDto_2;
 
     @BeforeEach
     void setUp() {
-
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
-                .setControllerAdvice(new RestResponseEntityExceptionHandler())
-                .build();
+        customerDto_1 = new CustomerDTO("Foo", "Bar", CustomerController.BASE_URL);
+        customerDto_2 = new CustomerDTO("Fee", "Bar", CustomerController.BASE_URL);
     }
 
     @Test
     void getAllCustomersTest() throws Exception {
 
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setId(1L);
-        customerDTO.setFirstname("Foo");
-        customerDTO.setLastname("Bar");
-        customerDTO.setCustomerUrl(CUSTOMER_URL);
+        CustomerListDTO customerListDTO = new CustomerListDTO(Arrays.asList(customerDto_1, customerDto_2));
 
-        CustomerDTO customerDTO2 = new CustomerDTO();
-        customerDTO2.setId(2L);
-        customerDTO2.setFirstname("Fee");
-        customerDTO2.setLastname("Bar");
-        customerDTO2.setCustomerUrl("/api/v1/customers/2");
+        given(customerService.getAllCustomers()).willReturn(customerListDTO);
 
-        when(customerService.getAllCustomers()).thenReturn(Arrays.asList(customerDTO, customerDTO2));
-
-        mockMvc.perform(get("/api/v1/customers/").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(CustomerController.BASE_URL).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2)));
     }
@@ -69,7 +66,6 @@ class CustomerControllerTest extends AbstractRestControllerTest {
     void getCustomerById() throws Exception   {
 
         CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setId(1L);
         customerDTO.setFirstname("Foo");
         customerDTO.setLastname("Bar");
         customerDTO.setCustomerUrl(CUSTOMER_URL);
